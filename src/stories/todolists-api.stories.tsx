@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
+import {todoListAPI} from "../api/todoList-api";
 
 export default {
     title: 'API'
@@ -16,9 +17,9 @@ export const GetTodolists = () => {
     useEffect(() => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
-        axios.get(baseURL, setting)
-            .then((res) => {
-                    setState(res.data)
+        todoListAPI.getTDAPI()
+            .then((data) => {
+                setState(data)
             })
     }, [])
     return <div>{JSON.stringify(state)}</div>
@@ -26,34 +27,32 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        axios.post(baseURL, {title: "REDUX"}, setting)
-            .then((res) => {
-                    setState(res.data)
+        todoListAPI.creatTDAPI()
+            .then((data) => {
+                setState(data)
             })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
 }
 export const DeleteTodolist = () => {
-    const todolistId = "b964e1ee-34ec-4a67-ae92-3196479ec1ee"
+
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        axios.delete(`${baseURL}/${todolistId}`, setting)
-            .then((res) => {
-                setState(res.data)
+        todoListAPI.deleteTDAPI()
+            .then((data) => {
+                setState(data)
             })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
 }
 export const UpdateTodolistTitle = () => {
-    const todolistId = "e71c754c-9bca-4021-b898-e5704f59d7d2"
     const [state, setState] = useState<any>(null)
-    const title = 'REACT';
     useEffect(() => {
-        axios.put(`${baseURL}/${todolistId}`, {title}, setting)
-            .then((res) => {
-                setState(res.data)
+        todoListAPI.updateTDAPI()
+            .then((data) => {
+                setState(data)
             })
     }, [])
 
