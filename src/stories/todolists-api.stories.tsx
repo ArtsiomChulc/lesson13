@@ -6,53 +6,50 @@ export default {
     title: 'API'
 }
 
-const setting = {
-    withCredentials: true
-}
-
-const baseURL = 'https://social-network.samuraijs.com/api/1.1/todo-lists';
-
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
         todoListAPI.getTDAPI()
-            .then((data) => {
-                setState(data)
+            .then((res) => {
+                setState(res.data)
             })
     }, [])
     return <div>{JSON.stringify(state)}</div>
 }
 export const CreateTodolist = () => {
+    const title = 'REDUX';
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todoListAPI.creatTDAPI()
-            .then((data) => {
-                setState(data)
+        todoListAPI.creatTDAPI(title)
+            .then((res) => {
+                setState(res.data)
             })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
 }
 export const DeleteTodolist = () => {
-
+    const todolistId = "08ef8797-97f5-4454-bfaa-6019240c7d62"
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todoListAPI.deleteTDAPI()
-            .then((data) => {
-                setState(data)
+        todoListAPI.deleteTDAPI(todolistId)
+            .then((res) => {
+                setState(res.data)
             })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
 }
 export const UpdateTodolistTitle = () => {
+    const todolistId = "74a7657d-4a2d-4dde-b925-c83aa1048394";
+    const title = 'REACT';
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todoListAPI.updateTDAPI()
-            .then((data) => {
-                setState(data)
+        todoListAPI.updateTDAPI(todolistId, title)
+            .then((res) => {
+                setState(res.data)
             })
     }, [])
 

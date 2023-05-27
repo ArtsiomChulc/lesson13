@@ -1,27 +1,35 @@
 import axios from "axios";
 
-const baseURL = 'https://social-network.samuraijs.com/api/1.1/todo-lists';
-const setting = {
+const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true
-}
+})
+
 export const todoListAPI = {
     getTDAPI() {
-        return axios.get(baseURL, setting)
-            .then((res) => res.data)
+        return instance.get<TodoListApiType[]>('todo-lists')
     },
-    creatTDAPI() {
-        return axios.post(baseURL, {title: "REDUX"}, setting)
-            .then((res) => res.data)
+    creatTDAPI(title: string) {
+        return instance.post<ResponseType<{item: TodoListApiType}>>(`todo-lists`, {title})
     },
-    deleteTDAPI() {
-        const todolistId = "0835ea59-943b-432c-8955-70805c4f8f4a"
-        return axios.delete(`${baseURL}/${todolistId}`, setting)
-            .then((res) => res.data)
+    deleteTDAPI(todolistId: string) {
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
     },
-    updateTDAPI() {
-        const todolistId = "0835ea59-943b-432c-8955-70805c4f8f4a";
-        const title = 'REACT';
-        return axios.put(`${baseURL}/${todolistId}`, {title}, setting)
-            .then((res) => res.data)
+    updateTDAPI(todolistId: string, title: string) {
+        return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title})
     }
+}
+
+type TodoListApiType = {
+    id: string
+    title: string
+    addedDate: Date
+    order: number
+}
+
+type ResponseType<T = {}> = {
+    fieldsErrors: []
+    resultCode: number
+    messages: []
+    data: T
 }
